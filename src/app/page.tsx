@@ -119,7 +119,7 @@ export default function WeatherApp() {
             <p className="text-sm text-slate-500 mt-1">AI Engineer Intern Assessment | Sirpreet Kaur Dhillon</p>
           </div>
           <div className="mt-4 md:mt-0 text-[10px] text-slate-400 max-w-[200px] leading-relaxed italic">
-            PM Accelerator: Advanced AI Product Development & Engineering.
+            The Product Manager Accelerator (PM Accelerator) is an intensive program designed to help professionals transition into high-impact roles in Product Management and AI. It focuses on hands-on technical skill-building, AI-driven product strategy, and career optimization to empower the next generation of AI product leaders.
           </div>
         </header>
 
