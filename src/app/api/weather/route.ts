@@ -19,7 +19,22 @@ export async function POST(req: Request) {
       const [la, lo] = location.split(',');
       lat = la.trim();
       lon = lo.trim();
-      name = "Current Location"; // Placeholder name for GPS results
+
+      try {
+        // Perform Reverse Geocoding to get the real city name
+        const reverseGeoRes = await fetch(
+          `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`
+        );
+        const reverseGeoData = await reverseGeoRes.json();
+
+        if (reverseGeoData && reverseGeoData.length > 0) {
+          name = reverseGeoData[0].name; // Successfully found the city name
+        } else {
+          name = `Location (${lat.slice(0, 5)}, ${lon.slice(0, 5)})`; // Fallback if no city found
+        }
+      } catch (err) {
+        name = "Current Location"; // Fallback on network error
+      }
     } else {
       // Input is a city name (e.g., "Coquitlam")
       const geoRes = await fetch(

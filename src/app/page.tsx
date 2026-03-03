@@ -16,7 +16,7 @@ export default function WeatherApp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Helper to fix the "Day Behind" UTC bug
+  // Helper to fix the Day Behind bug
   const formatLocalDate = (dateStr: string, options: Intl.DateTimeFormatOptions = {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   }) => {
@@ -44,6 +44,7 @@ export default function WeatherApp() {
     setEndDate(fiveDaysLater.toISOString().split('T')[0]);
   }, []);
 
+  // Handler for Start Date Change (Auto-sets End Date +5 Days)
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const start = e.target.value;
     setStartDate(start);
@@ -54,6 +55,7 @@ export default function WeatherApp() {
     }
   };
 
+  // POST Handler for Weather Search
   const handleSearch = async (locToSearch?: string) => {
     const searchTarget = locToSearch || location;
     if (!searchTarget) { setError("Please enter a location."); return; }
@@ -79,6 +81,7 @@ export default function WeatherApp() {
     }
   };
 
+  // GET Current Location Handler
   const handleGetCurrentLocation = () => {
     if (!navigator.geolocation) {
       setError("Geolocation not supported.");
@@ -98,6 +101,7 @@ export default function WeatherApp() {
     );
   };
 
+  // DELETE Handler for History Records
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this record?")) return;
     try {
@@ -108,6 +112,39 @@ export default function WeatherApp() {
     }
   };
 
+  // EXPORT: CSV/JSON Data Export
+  const exportData = (format: 'json' | 'csv') => {
+    if (history.length === 0) {
+      alert("No history to export.");
+      return;
+    }
+
+    let content = '';
+    const type = format === 'json' ? 'application/json' : 'text/csv';
+    
+    if (format === 'json') {
+      content = JSON.stringify(history, null, 2);
+    } else {
+      // CSV Headers matching your schema
+      const headers = "Location,CurrentTemp,Description,RangeStart,RangeEnd,Day1,Day2,Day3,Day4,Day5,DateSearched\n";
+      const rows = history.map((r: any) => {
+        return `${r.location},${Math.round(r.temp)},"${r.description}",${r.startDate},${r.endDate},${Math.round(r.tempDay1)},${Math.round(r.tempDay2)},${Math.round(r.tempDay3)},${Math.round(r.tempDay4)},${Math.round(r.tempDay5)},${r.createdAt}`;
+      }).join("\n");
+      content = headers + rows;
+    }
+
+    // Create and trigger download
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `weather_history_export_${new Date().toISOString().split('T')[0]}.${format}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -115,12 +152,13 @@ export default function WeatherApp() {
         {/* Header */}
         <header className="flex flex-col md:flex-row md:justify-between md:items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2 text-blue-600"><Cloud size={32} /> Weather POC</h1>
+            <h1 className="text-2xl font-bold flex items-center gap-2 text-blue-600"><Cloud size={32} /> Weather App | Full Stack Tech Assessment</h1>
             <p className="text-sm text-slate-500 mt-1">AI Engineer Intern Assessment | Sirpreet Kaur Dhillon</p>
+            <div className="mt-4 md:mt-0 text-[10px] text-slate-400 leading-relaxed italic">
+              The Product Manager Accelerator (PM Accelerator) is an intensive program designed to help professionals transition into high-impact roles in Product Management and AI. It focuses on hands-on technical skill-building, AI-driven product strategy, and career optimization to empower the next generation of AI product leaders.
+            </div>
           </div>
-          <div className="mt-4 md:mt-0 text-[10px] text-slate-400 max-w-[200px] leading-relaxed italic">
-            The Product Manager Accelerator (PM Accelerator) is an intensive program designed to help professionals transition into high-impact roles in Product Management and AI. It focuses on hands-on technical skill-building, AI-driven product strategy, and career optimization to empower the next generation of AI product leaders.
-          </div>
+          
         </header>
 
         {/* Search & Inputs */}
@@ -209,6 +247,23 @@ export default function WeatherApp() {
         <section className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
           <div className="p-4 bg-slate-50 border-b flex justify-between items-center font-bold text-slate-700">
             <h3 className="flex items-center gap-2 tracking-tight"><Thermometer size={18} className="text-blue-500" /> Search History (One Call 3.0)</h3>
+            
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+              <button 
+                onClick={() => exportData('csv')} 
+                className="text-[10px] font-bold border px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 transition flex items-center gap-1 shadow-sm"
+              >
+                <Download size={12}/> CSV
+              </button>
+              <button 
+                onClick={() => exportData('json')} 
+                className="text-[10px] font-bold border px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 transition flex items-center gap-1 shadow-sm"
+              >
+                <Download size={12}/> JSON
+              </button>
+            </div>
+
           </div>
           <div className="divide-y max-h-96 overflow-y-auto">
             {history.length === 0 ? (
