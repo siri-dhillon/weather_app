@@ -9,11 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@prisma/client": "^7.4.2",
+    "@libsql/client": "^0.17.0",
+    "@prisma/adapter-libsql": "^7.4.2",
+    "@prisma/client": "^6.19.2",
     "axios": "^1.13.6",
     "lucide-react": "^0.576.0",
     "next": "16.1.6",
-    "prisma": "^7.4.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -25,6 +26,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prisma": "^6.19.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
