@@ -65,11 +65,11 @@ The **Product Manager Accelerator (PM Accelerator)** is an intensive program des
 ---
 
 ## 🏃 How to Run
-1.  **Clone the Repository:** `git clone <your-repo-url>`
+1.  **Clone the Repository:** `git clone https://github.com/siri-dhillon/weather_app.git`
 2.  **Install Dependencies:** `npm install`
 3.  **Environment Setup:** Create a `.env` file in the root and add:
     * `DATABASE_URL="file:./dev.db"`
-    * `OPENWEATHER_API_KEY="your_api_key_here"`
+    * `OPENWEATHER_API_KEY="add your key here or contact Sirpreet for her API key"`
 4.  **Sync Database:** `npx prisma db push`
 5.  **Start App:** `npm run dev`
 6.  **View History (Admin):** Open `npx prisma studio` to view the raw database entries.
