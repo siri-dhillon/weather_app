@@ -83,10 +83,12 @@ To resolve common JavaScript `Date` object issues where ISO strings default to U
 ---
 
 ## 🏃 How to Run
-1.  **Clone the Repository:** ```bash
+1.  **Clone the Repository:** 
+    ```bash
     git clone [https://github.com/siri-dhillon/weather_app.git](https://github.com/siri-dhillon/weather_app.git)
     ```
-2.  **Install Dependencies:** ```bash
+2.  **Install Dependencies:** 
+    ```bash
     npm install
     ```
 3.  **Environment Setup:** Create a `.env` file in the root:
@@ -94,10 +96,12 @@ To resolve common JavaScript `Date` object issues where ISO strings default to U
     DATABASE_URL="file:./dev.db"
     OPENWEATHER_API_KEY="your_one_call_3_0_enabled_key"
     ```
-4.  **Sync Database:** ```bash
+4.  **Sync Database:** 
+    ```bash
     npx prisma db push
     ```
-5.  **Start App:** ```bash
+5.  **Start App:** 
+    ```bash
     npm run dev
     ```
 6.  **Admin Tools:** Run `npx prisma studio` to interact directly with the SQLite records.
