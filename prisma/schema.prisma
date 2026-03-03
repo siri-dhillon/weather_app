@@ -14,9 +14,17 @@ datasource db {
 model WeatherQuery {
   id          Int      @id @default(autoincrement())
   location    String
-  temp        Float
+  temp        Float    // Current temp at time of search
   description String
+  
+  // New Fields
   startDate   DateTime
   endDate     DateTime
+  tempDay1    Float
+  tempDay2    Float
+  tempDay3    Float
+  tempDay4    Float
+  tempDay5    Float
+  
   createdAt   DateTime @default(now())
 }
