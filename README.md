@@ -72,4 +72,4 @@ The **Product Manager Accelerator (PM Accelerator)** is an intensive program des
     * `OPENWEATHER_API_KEY="add your key here or contact Sirpreet for her API key"`
 4.  **Sync Database:** `npx prisma db push`
 5.  **Start App:** `npm run dev`
-6.  **View History (Admin):** Open `npx prisma studio` to view the raw database entries.
+6.  **View History (Admin):** Run `npx prisma studio` to view the raw database entries.
