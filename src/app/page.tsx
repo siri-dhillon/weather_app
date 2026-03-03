@@ -79,6 +79,68 @@ export default function WeatherApp() {
     link.click();
   };
 
+  const handleDelete = async (id: number) => {
+  if (!confirm("Are you sure you want to delete this record?")) return;
+
+  try {
+    const res = await fetch(`/api/weather?id=${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      // Refresh the history list after deletion
+      fetchHistory();
+    } else {
+      const data = await res.json();
+      alert(data.error || "Failed to delete");
+    }
+  } catch (err) {
+    console.error("Delete error:", err);
+  }
+};
+
+// CURRENT LOCATION: Handling geoloaction 
+const handleGetCurrentLocation = () => {
+  if (!navigator.geolocation) {
+    setError("Geolocation is not supported by your browser.");
+    return;
+  }
+
+  setLoading(true);
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      const { latitude, longitude } = position.coords;
+      try {
+        // Send coordinates to your existing API route
+        const res = await fetch('/api/weather', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            location: `${latitude},${longitude}`, // OpenWeather handles "lat,lon" strings
+            startDate: new Date(), 
+            endDate: new Date() 
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Location fetch failed");
+
+        setCurrentWeather(data.weather);
+        setForecast(data.forecast || []);
+        fetchHistory();
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    (err) => {
+      setLoading(false);
+      setError("Location access denied. Please enter a city manually.");
+    }
+  );
+};
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 font-sans">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -89,10 +151,11 @@ export default function WeatherApp() {
             <h1 className="text-2xl font-bold flex items-center gap-2 text-blue-600">
               <Cloud size={32} /> Weather App POC
             </h1>
-            <p className="text-sm text-slate-500 mt-1">AI Engineer Intern Technical Assessment | Sirpreet Kaur Dhillon</p>
+            <p className="text-sm text-slate-500 mt-1">AI Engineer Intern Technical Assessment (Full Stack Engineers) | Sirpreet Kaur Dhillon</p>
           </div>
           <div className="mt-4 md:mt-0 text-xs text-slate-400 max-w-xs">
-            Product Manager Accelerator: Empowering professionals to master AI-driven product development.
+            The Product Manager Accelerator Program is designed to support PM professionals through every stage of their careers. From students looking for entry-level jobs to Directors looking to take on a leadership role, our program has helped over hundreds of students fulfill their career aspirations. 
+            Gain hands-on AI Product Management skills by building a real-life AI product with a team of AI Engineers, data scientists, and designers.
           </div>
         </header>
 
@@ -108,6 +171,16 @@ export default function WeatherApp() {
                 onChange={(e) => setLocation(e.target.value)}
               />
             </div>
+            {/* Current Location Button */}
+            <button 
+              type="button"
+              onClick={handleGetCurrentLocation}
+              className="p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition"
+              title="Use Current Location"
+            >
+              <MapPin size={20} />
+            </button>
+
             <button 
               disabled={loading}
               className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:bg-blue-300 transition shadow-lg shadow-blue-100"
@@ -208,7 +281,11 @@ export default function WeatherApp() {
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-mono bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-bold">{row.temp}°C</span>
-                    <button title="Delete Record" className="text-slate-300 hover:text-red-500 transition">
+                    <button 
+                      onClick={() => handleDelete(row.id)} //
+                      title="Delete Record" 
+                      className="text-slate-300 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-lg"
+                    >
                       <Trash2 size={16} />
                     </button>
                   </div>

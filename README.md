@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Weather App Proof of Concept (POC)
 
-## Getting Started
+**Candidate:** Sirpreet Kaur Dhillon  
+**Role:** AI Engineer Intern - Technical Assessment  
+**Submission Date:** March 3, 2026  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Project Overview
+This project is a high-performance weather dashboard built to demonstrate both frontend responsiveness and backend data persistence. While the assessment offered a choice between tracks, I elected to complete **both Tech Assessment #1 and #2 (Full Stack)** to showcase a complete end-to-end integration of AI-ready product architecture.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 💡 About PM Accelerator
+The **Product Manager Accelerator (PM Accelerator)** is an intensive program designed to help professionals transition into high-impact roles in Product Management and AI. It focuses on hands-on technical skill-building, AI-driven product strategy, and career optimization to empower the next generation of AI product leaders.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+INSERT: Image of a software development lifecycle showing: Requirements -> Development -> Testing -> Final Analysis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Tech Stack
+* **Frontend:** Next.js 15 (App Router), TypeScript, Tailwind CSS.
+* **Icons:** Lucide-React & OpenWeather Dynamic Icons.
+* **Backend:** Next.js Route Handlers (RESTful Architecture).
+* **Database:** SQLite via **Prisma 6** (Selected for local environment stability and robust migration handling).
+* **API:** OpenWeatherMap API (Current & 5-Day Forecast).
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📋 Requirements Checklist
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Tech Assessment 1: Frontend
+- [x] **Universal Location Input:** Supports City, Zip, and GPS coordinates.
+- [x] **Clear Weather Display:** Real-time temp, humidity, and wind speed.
+- [x] **Current Location Support:** Integrated browser Geolocation API.
+- [x] **Responsive Design:** Seamless adaptation for mobile, tablet, and desktop.
+- [x] **5-Day Forecast:** Daily snapshots with formatted dates.
+- [x] **Error Handling:**
