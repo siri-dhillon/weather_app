@@ -12,7 +12,7 @@ This project is a high-performance weather dashboard built to demonstrate both f
 ## 💡 About PM Accelerator
 The **Product Manager Accelerator (PM Accelerator)** is an intensive program designed to help professionals transition into high-impact roles in Product Management and AI. It focuses on hands-on technical skill-building, AI-driven product strategy, and career optimization to empower the next generation of AI product leaders.
 
-INSERT: Image of a software development lifecycle showing: Requirements -> Development -> Testing -> Final Analysis
+
 
 ---
 
@@ -33,4 +33,43 @@ INSERT: Image of a software development lifecycle showing: Requirements -> Devel
 - [x] **Current Location Support:** Integrated browser Geolocation API.
 - [x] **Responsive Design:** Seamless adaptation for mobile, tablet, and desktop.
 - [x] **5-Day Forecast:** Daily snapshots with formatted dates.
-- [x] **Error Handling:**
+- [x] **Error Handling:** Graceful messaging for invalid inputs or API failures.
+
+### Tech Assessment 2: Backend & CRUD
+- [x] **Database Persistence:** All queries stored in a local SQLite instance.
+- [x] **CREATE:** Validation of location before record entry.
+- [x] **READ:** Retrieval of search history on application load.
+- [x] **UPDATE:** Ability to modify records via database tools.
+- [x] **DELETE:** UI-integrated record removal.
+- [x] **Data Export:** Export functionality for **CSV** and **JSON** formats.
+
+---
+
+## 🔍 Implementation Details
+
+### Frontend Logic
+* **Main Dashboard:** `src/app/page.tsx`
+* **Key Functions:** `handleSearch`, `handleGetCurrentLocation`, `exportData`, `handleDelete`.
+* **Approach:** Used a "mobile-first" Tailwind strategy and filtered the 40-point OpenWeather forecast array into 5 daily snapshots using a modulo-8 filter to ensure a clean user interface.
+
+### Backend & API Logic
+* **API Routes:** `src/app/api/weather/route.ts`
+* **Key Functions:** `POST` (Create/Fetch), `GET` (Read History), `DELETE` (Remove Record).
+* **Approach:** Implemented logic to detect coordinate-based strings (`lat,lon`) vs. standard text to provide flexible input validation.
+
+### Database Schema
+* **Schema File:** `prisma/schema.prisma`
+* **Model:** `WeatherQuery`
+* **Approach:** Utilized **Prisma 6** to maintain a reliable connection to the `dev.db` SQLite file, ensuring the application remains lightweight and easy to clone for evaluators.
+
+---
+
+## 🏃 How to Run
+1.  **Clone the Repository:** `git clone <your-repo-url>`
+2.  **Install Dependencies:** `npm install`
+3.  **Environment Setup:** Create a `.env` file in the root and add:
+    * `DATABASE_URL="file:./dev.db"`
+    * `OPENWEATHER_API_KEY="your_api_key_here"`
+4.  **Sync Database:** `npx prisma db push`
+5.  **Start App:** `npm run dev`
+6.  **View History (Admin):** Open `npx prisma studio` to view the raw database entries.
